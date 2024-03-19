@@ -27,4 +27,26 @@ export default class Tree {
 
         return rootNode;
     }
+
+    insert(value) {
+
+    }
+
+    deleteItem(value) {
+
+    }
+
+    find(value) {
+        let root = this.root;
+        while (root !== null) {
+            if (value === root.value) {
+                return root;
+            } else if (value < this.root.value) {
+                root = root.left;
+            } else if (value > this.root.value) {
+                root = root.right;
+            }
+        }
+        return null;
+    }
 }

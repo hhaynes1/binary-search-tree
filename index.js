@@ -19,4 +19,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     let tree = new Tree(testData);
     console.log(tree);
     prettyPrint(tree.root);
+
+    console.log('\nFIND');
+    console.log(tree.find(1));
+    console.log(tree.find(2));
+    console.log(tree.find(3));
 })();
