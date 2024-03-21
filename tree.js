@@ -29,7 +29,24 @@ export default class Tree {
     }
 
     insert(value) {
+        if (value < this.root.value) {
+            this.checkNode(value, this.root.left);
+        } else if (value > this.root.value) {
+            this.checkNode(value, this.root.right);
+        }
+    }
 
+    checkNode(value, node) {
+        if (node === null) {
+            return new Node(value);
+        }
+
+        if (value < node.value) {
+            node.left = this.checkNode(value, node.left);
+        } else if (value > node.value) {
+            node.right = this.checkNode(value, node.right);
+        }
+        return node;
     }
 
     deleteItem(value) {
@@ -41,9 +58,9 @@ export default class Tree {
         while (root !== null) {
             if (value === root.value) {
                 return root;
-            } else if (value < this.root.value) {
+            } else if (value < root.value) {
                 root = root.left;
-            } else if (value > this.root.value) {
+            } else if (value > root.value) {
                 root = root.right;
             }
         }
