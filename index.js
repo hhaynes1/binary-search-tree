@@ -26,6 +26,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(tree.root);
 
     console.log('\nDELETE');
+    tree.deleteItem(1, tree.root);
+    tree.deleteItem(6, tree.root);
+    tree.deleteItem(7, tree.root);
+    tree.deleteItem(8, tree.root);
+    tree.deleteItem(9, tree.root);
+    tree.deleteItem(4, tree.root);
+    prettyPrint(tree.root);
 
     console.log('\nFIND');
     console.log(tree.find(1));

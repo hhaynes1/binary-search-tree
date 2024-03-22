@@ -24,33 +24,73 @@ export default class Tree {
         let rootNode = new Node(array[middle]);
         rootNode.left = this.buildTree(left);
         rootNode.right = this.buildTree(right);
-
         return rootNode;
     }
 
     insert(value) {
         if (value < this.root.value) {
-            this.checkNode(value, this.root.left);
+            this.insertNode(value, this.root.left);
         } else if (value > this.root.value) {
-            this.checkNode(value, this.root.right);
+            this.insertNode(value, this.root.right);
         }
     }
 
-    checkNode(value, node) {
+    insertNode(value, node) {
         if (node === null) {
             return new Node(value);
         }
 
         if (value < node.value) {
-            node.left = this.checkNode(value, node.left);
+            node.left = this.insertNode(value, node.left);
         } else if (value > node.value) {
-            node.right = this.checkNode(value, node.right);
+            node.right = this.insertNode(value, node.right);
         }
         return node;
     }
 
-    deleteItem(value) {
+    deleteItem(value, node) {
+        if (node === null) {
+            return null;
+        }
 
+        if (value < node.value) {
+            node.left = this.deleteItem(value, node.left);
+        } else if (value > node.value) {
+            node.right = this.deleteItem(value, node.right);
+        }
+
+        // at node to be deleted
+        if (value === node.value) {
+            if (node.isLeaf()) {
+                return null;
+            } else if (node.onlyLeftChild()) {
+                return node.left;
+            } else if (node.onlyRightChild()) {
+                return node.right;
+            } else if (node.bothChildren()) {
+                // find next largest node (right one, left all the way)
+                let nextNode = node.right;
+                while (nextNode.left) {
+                    nextNode = nextNode.left;
+                }
+                // replace value with next largest
+                node.value = nextNode.value;
+                // remove copied node
+                node.right = this.removeNode(nextNode.value, node.right);
+            }
+        }
+        return node;
+    }
+
+    removeNode(value, node) {
+        if (value < node.value) {
+            node.left = this.removeNode(value, node.left);
+        } else if (value > node.value) {
+            node.right = this.removeNode(value, node.right);
+        } else if (value === node.value) {
+            return node.right ? node.right : null;
+        }
+        return node;
     }
 
     find(value) {
@@ -65,5 +105,37 @@ export default class Tree {
             }
         }
         return null;
+    }
+
+    levelOrder(callback) {
+
+    }
+
+    inOrder(callback) {
+
+    }
+
+    preOrder(callback) {
+
+    }
+
+    postOrder(callback) {
+
+    }
+
+    height(node) {
+
+    }
+
+    depth(node) {
+
+    }
+
+    isBalanced() {
+
+    }
+
+    rebalance() {
+
     }
 }
