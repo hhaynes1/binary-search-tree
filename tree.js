@@ -132,10 +132,29 @@ export default class Tree {
         return callback;
     }
 
-    inOrder(callback) {
+    // [left][root][right]
+    inOrder(node, callback = []) {
+        if (node === null) {
+            return;
+        }
 
+        if (node.left) {
+            this.inOrder(node.left, callback);
+        }
+
+        if (typeof callback === 'function') {
+            callback(node);
+        } else {
+            callback.push(node.value);
+        }
+
+        if (node.right) {
+            this.inOrder(node.right, callback);
+        }
+        return callback;
     }
 
+    // [root][left][right]
     preOrder(node = null, callback = []) {
         if (node === null) {
             return;
@@ -157,6 +176,7 @@ export default class Tree {
         return callback;
     }
 
+    // [left][right][root]
     postOrder(callback) {
 
     }
