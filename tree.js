@@ -136,8 +136,25 @@ export default class Tree {
 
     }
 
-    preOrder(callback) {
+    preOrder(node = null, callback = []) {
+        if (node === null) {
+            return;
+        }
 
+        if (typeof callback === 'function') {
+            callback(node);
+        } else {
+            callback.push(node.value);
+        }
+
+        if (node.left) {
+            this.preOrder(node.left, callback);
+        }
+
+        if (node.right) {
+            this.preOrder(node.right, callback);
+        }
+        return callback;
     }
 
     postOrder(callback) {

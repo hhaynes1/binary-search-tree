@@ -43,4 +43,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     tree.levelOrder([tree.root], (node) => { console.log(node.value) });
     console.log(tree.levelOrder([tree.root]));
     prettyPrint(tree.root);
+    
+    console.log('\nPREORDER');
+    tree.preOrder(tree.root, (node) => { console.log(node.value) });
+    console.log(tree.preOrder(tree.root));
+    prettyPrint(tree.root);
 })();
