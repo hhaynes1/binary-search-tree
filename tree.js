@@ -133,7 +133,7 @@ export default class Tree {
     }
 
     // [left][root][right]
-    inOrder(node, callback = []) {
+    inOrder(node = null, callback = []) {
         if (node === null) {
             return;
         }
@@ -177,12 +177,35 @@ export default class Tree {
     }
 
     // [left][right][root]
-    postOrder(callback) {
+    postOrder(node, callback = []) {
+        if (node === null) {
+            return;
+        }
 
+        if (node.left) {
+            this.postOrder(node.left, callback);
+        }
+
+        if (node.right) {
+            this.postOrder(node.right, callback);
+        }
+
+        if (typeof callback === 'function') {
+            callback(node);
+        } else {
+            callback.push(node.value);
+        }
+        return callback;
     }
 
-    height(node) {
+    height(node = null) {
+        if (node === null) {
+            return 0;
+        }
+        let leftHeight = this.height(node.left);
+        let rightHeight = this.height(node.right);
 
+        return Math.max(leftHeight, rightHeight) + 1;
     }
 
     depth(node) {

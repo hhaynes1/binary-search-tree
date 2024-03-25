@@ -53,4 +53,12 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     tree.preOrder(tree.root, (node) => { console.log(node.value) });
     console.log(tree.preOrder(tree.root));
     prettyPrint(tree.root);
+
+    console.log('\nPOSTORDER');
+    tree.postOrder(tree.root);
+    console.log(tree.postOrder(tree.root));
+    prettyPrint(tree.root);
+
+    console.log('\nHEIGHT');
+    console.log(tree.height(tree.root));
 })();
