@@ -61,4 +61,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
     console.log('\nHEIGHT');
     console.log(tree.height(tree.root));
+
+    console.log('\nDEPTH');
+    console.log(tree.depth(tree.find(324)));
+
+    console.log('\nREBALANCE');
+    tree.rebalance();
+    prettyPrint(tree.root);
 })();

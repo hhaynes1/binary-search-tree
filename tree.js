@@ -177,7 +177,7 @@ export default class Tree {
     }
 
     // [left][right][root]
-    postOrder(node, callback = []) {
+    postOrder(node = null, callback = []) {
         if (node === null) {
             return;
         }
@@ -208,8 +208,25 @@ export default class Tree {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    depth(node) {
+    depth(node = null) {
+        if (node === null) {
+            return;
+        }
 
+        let count = 0;
+        let root = this.root;
+        while (root !== null) {
+            if (node.value === root.value) {
+                return count;
+            } else if (node.value < root.value) {
+                count++;
+                root = root.left;
+            } else if (node.value > root.value) {
+                count++;
+                root = root.right;
+            }
+        }
+        return null;
     }
 
     isBalanced() {
@@ -217,6 +234,6 @@ export default class Tree {
     }
 
     rebalance() {
-
+        this.root = this.buildTree(this.levelOrder([this.root]));
     }
 }
