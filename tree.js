@@ -107,8 +107,29 @@ export default class Tree {
         return null;
     }
 
-    levelOrder(callback) {
+    // BFS (level order traversal)
+    // return array of values if no callback
+    levelOrder(queue, callback = []) {
+        // add children to queue
+        if (queue[0].left) {
+            queue.push(queue[0].left);
+        }
+        if (queue[0].right) {
+            queue.push(queue[0].right);
+        }
 
+        // callback on start of queue
+        if (typeof callback === 'function') {
+            callback(queue.shift());
+        } else {
+            callback.push(queue.shift().value);
+        }
+
+        // continue until queue empty
+        if (queue.length !== 0) {
+            this.levelOrder(queue, callback);
+        }
+        return callback;
     }
 
     inOrder(callback) {
