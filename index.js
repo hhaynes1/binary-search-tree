@@ -1,29 +1,15 @@
 import Tree from './tree.js';
 
-// tree print function, provided from Odin Project assignment description
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-    if (node === null) {
-        return;
-    }
-    if (node.right !== null) {
-        prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-    }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
-    if (node.left !== null) {
-        prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-    }
-};
-
 (() => {
     let testData = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
     let tree = new Tree(testData);
     console.log(tree);
-    prettyPrint(tree.root);
+    tree.prettyPrint();
 
     console.log('\nINSERT');
     tree.insert(42);
     tree.insert(6);
-    prettyPrint(tree.root);
+    tree.prettyPrint();
 
     console.log('\nDELETE');
     tree.deleteItem(1, tree.root);
@@ -32,7 +18,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     tree.deleteItem(8, tree.root);
     tree.deleteItem(9, tree.root);
     tree.deleteItem(4, tree.root);
-    prettyPrint(tree.root);
+    tree.prettyPrint();
 
     console.log('\nFIND');
     console.log(tree.find(1));
@@ -40,32 +26,104 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     console.log(tree.find(3));
 
     console.log('\nLEVEL ORDER');
-    tree.levelOrder([tree.root], (node) => { console.log(node.value) });
-    console.log(tree.levelOrder([tree.root]));
-    prettyPrint(tree.root);
+    tree.levelOrder((node) => { console.log(node.value) });
+    console.log(tree.levelOrder());
+    tree.prettyPrint();
 
     console.log('\nINORDER');
-    tree.inOrder(tree.root, (node) => { console.log(node.value) });
-    console.log(tree.inOrder(tree.root));
-    prettyPrint(tree.root);
+    tree.inOrder((node) => { console.log(node.value) });
+    console.log(tree.inOrder());
+    tree.prettyPrint();
 
     console.log('\nPREORDER');
-    tree.preOrder(tree.root, (node) => { console.log(node.value) });
-    console.log(tree.preOrder(tree.root));
-    prettyPrint(tree.root);
+    tree.preOrder((node) => { console.log(node.value) });
+    console.log(tree.preOrder());
+    tree.prettyPrint();
 
     console.log('\nPOSTORDER');
-    tree.postOrder(tree.root);
-    console.log(tree.postOrder(tree.root));
-    prettyPrint(tree.root);
+    tree.postOrder((node) => { console.log(node.value) });
+    console.log(tree.postOrder());
+    tree.prettyPrint();
 
     console.log('\nHEIGHT');
-    console.log(tree.height(tree.root));
+    console.log(tree.height());
 
     console.log('\nDEPTH');
-    console.log(tree.depth(tree.find(324)));
+    console.log(tree.depth());
+    console.log(tree.depth(324));
+
+    console.log('\nISBALANCED');
+    console.log(tree.isBalanced());
 
     console.log('\nREBALANCE');
     tree.rebalance();
-    prettyPrint(tree.root);
+    tree.prettyPrint();
+});
+
+// "Tie it all together" Section
+(() => {
+    // Generate random numbers <100
+    let treeData = [];
+    for (let i = 0; i < 100; i++) {
+        treeData.push(Math.floor(Math.random() * 100))
+    }
+    console.log(treeData);
+
+    // Create Tree
+    let testTree = new Tree(treeData);
+    console.log(testTree);
+    testTree.prettyPrint();
+
+    console.log('\nISBALANCED');
+    console.log(testTree.isBalanced());
+
+    // print in all orders
+    console.log('\nLEVEL ORDER');
+    console.log(testTree.levelOrder());
+    testTree.prettyPrint();
+
+    console.log('\nINORDER');
+    console.log(testTree.inOrder());
+    testTree.prettyPrint();
+
+    console.log('\nPREORDER');
+    console.log(testTree.preOrder());
+    testTree.prettyPrint();
+
+    console.log('\nPOSTORDER');
+    console.log(testTree.postOrder());
+    testTree.prettyPrint();
+
+    // unbalance the tree
+    for (let i = 0; i < 25; i++) {
+        testTree.insert(Math.floor(Math.random() * 200) + 100);
+    }
+
+    // is it balanced?
+    console.log('\nUNBALANCED?')
+    console.log(!testTree.isBalanced());
+    testTree.prettyPrint();
+
+    // rebalance
+    testTree.rebalance();
+    console.log('\nREBALANCED?');
+    console.log(testTree.isBalanced());
+    testTree.prettyPrint();
+
+    // print in all orders
+    console.log('\nLEVEL ORDER');
+    console.log(testTree.levelOrder());
+    testTree.prettyPrint();
+
+    console.log('\nINORDER');
+    console.log(testTree.inOrder());
+    testTree.prettyPrint();
+
+    console.log('\nPREORDER');
+    console.log(testTree.preOrder());
+    testTree.prettyPrint();
+
+    console.log('\nPOSTORDER');
+    console.log(testTree.postOrder());
+    testTree.prettyPrint();
 })();

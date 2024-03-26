@@ -35,7 +35,7 @@ export default class Tree {
         }
     }
 
-    insertNode(value, node) {
+    insertNode(value, node = this.root) {
         if (node === null) {
             return new Node(value);
         }
@@ -48,7 +48,7 @@ export default class Tree {
         return node;
     }
 
-    deleteItem(value, node) {
+    deleteItem(value, node = this.root) {
         if (node === null) {
             return null;
         }
@@ -109,7 +109,7 @@ export default class Tree {
 
     // BFS (level order traversal)
     // return array of values if no callback
-    levelOrder(queue, callback = []) {
+    levelOrder(callback = [], queue = [this.root]) {
         // add children to queue
         if (queue[0].left) {
             queue.push(queue[0].left);
@@ -127,19 +127,15 @@ export default class Tree {
 
         // continue until queue empty
         if (queue.length !== 0) {
-            this.levelOrder(queue, callback);
+            this.levelOrder(callback, queue);
         }
         return callback;
     }
 
     // [left][root][right]
-    inOrder(node = null, callback = []) {
-        if (node === null) {
-            return;
-        }
-
+    inOrder(callback = [], node = this.root) {
         if (node.left) {
-            this.inOrder(node.left, callback);
+            this.inOrder(callback, node.left);
         }
 
         if (typeof callback === 'function') {
@@ -149,17 +145,13 @@ export default class Tree {
         }
 
         if (node.right) {
-            this.inOrder(node.right, callback);
+            this.inOrder(callback, node.right);
         }
         return callback;
     }
 
     // [root][left][right]
-    preOrder(node = null, callback = []) {
-        if (node === null) {
-            return;
-        }
-
+    preOrder(callback = [], node = this.root) {
         if (typeof callback === 'function') {
             callback(node);
         } else {
@@ -167,27 +159,23 @@ export default class Tree {
         }
 
         if (node.left) {
-            this.preOrder(node.left, callback);
+            this.preOrder(callback, node.left);
         }
 
         if (node.right) {
-            this.preOrder(node.right, callback);
+            this.preOrder(callback, node.right);
         }
         return callback;
     }
 
     // [left][right][root]
-    postOrder(node = null, callback = []) {
-        if (node === null) {
-            return;
-        }
-
+    postOrder(callback = [], node = this.root) {
         if (node.left) {
-            this.postOrder(node.left, callback);
+            this.postOrder(callback, node.left);
         }
 
         if (node.right) {
-            this.postOrder(node.right, callback);
+            this.postOrder(callback, node.right);
         }
 
         if (typeof callback === 'function') {
@@ -198,7 +186,7 @@ export default class Tree {
         return callback;
     }
 
-    height(node = null) {
+    height(node = this.root) {
         if (node === null) {
             return 0;
         }
@@ -208,9 +196,10 @@ export default class Tree {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    depth(node = null) {
-        if (node === null) {
-            return;
+    depth(node = this.root) {
+        if (typeof node !== 'object') {
+            // if argument not Node, search tree
+            node = this.find(node);
         }
 
         let count = 0;
@@ -229,11 +218,38 @@ export default class Tree {
         return null;
     }
 
-    isBalanced() {
+    isBalanced(node = this.root) {
+        if (node === null) {
+            return null;
+        }
 
+        let leftHeight = this.height(node.left);
+        let rightHeight = this.height(node.right);
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return false;
+        }
+
+        this.isBalanced(node.left);
+        this.isBalanced(node.right);
+        return true;
     }
 
     rebalance() {
-        this.root = this.buildTree(this.levelOrder([this.root]));
+        this.root = this.buildTree(this.levelOrder());
     }
+
+    // tree print function, provided from Odin Project assignment description
+    prettyPrint(node = this.root, prefix = "", isLeft = true) {
+        if (node === null) {
+            console.log('test')
+            return;
+        }
+        if (node.right !== null) {
+            this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+        }
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+        if (node.left !== null) {
+            this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+        }
+    };
 }
